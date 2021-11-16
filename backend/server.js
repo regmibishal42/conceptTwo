@@ -11,7 +11,7 @@ process.on('uncaughtException',(err)=>{
 
 // Config
 dotenv.config({path:'backend/config/config.env'});
-
+clearImmediate
 // connect to mongodb after acquireing config 
 connectDatabase();
 
@@ -29,3 +29,4 @@ process.on("unhandledRejection",(err)=>{
         process.exit(1);
     })
 });
+

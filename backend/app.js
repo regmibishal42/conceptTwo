@@ -7,13 +7,13 @@ const errorMiddleware = require('./middleware/error');
 app.use(express.json());
 
 
-// Route Imports
+// Importing The Routes 
 const products = require('./routers/productRoute');
 const user = require('./routers/userRoute');
 app.use('/api/v1',products);
 app.use('/api/v1',user);
 
-// middleware for Error
+// Middleware For Errors in The REq,REs Pipeline
 app.use(errorMiddleware);
 
 module.exports = app;

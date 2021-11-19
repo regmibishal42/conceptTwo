@@ -1,10 +1,11 @@
 const ErrorHandler = require('../utils/errorHandler');
 const User = require('../models/userModel');
 const sendToken = require('../utils/jwtToken');
+const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 
 
 // Register New User
-exports.registerNewUser = async (req,res,next) =>{
+exports.registerNewUser = catchAsyncErrors(async (req,res,next) =>{
     const {name,email,password} = req.body;
 
     const user = await User.create({
@@ -17,9 +18,8 @@ exports.registerNewUser = async (req,res,next) =>{
         }
     });
     sendToken(user,201,res);
-};
+});
 
-const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 
 exports.loginUser = catchAsyncErrors(async(req,res,next) =>{
 
@@ -39,3 +39,6 @@ exports.loginUser = catchAsyncErrors(async(req,res,next) =>{
     }
     sendToken(user,200,res);
 });
+
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOTc3M2E5NTJhY2UzYTI3ZmEyZmZhYyIsImlhdCI6MTYzNzMxNTQ5NywiZXhwIjoxNjM3NzQ3NDk3fQ.JbGliuzAlQnsI7Vso3VQo8Ix6m8s39dsZIALn5MLWrc
+// User 2

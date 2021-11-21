@@ -39,6 +39,25 @@ exports.loginUser = catchAsyncErrors(async(req,res,next) =>{
     sendToken(user,200,res);
 });
 
+// LogOut User
+
+exports.logoutUser = catchAsyncErrors(async(req,res,next)=>{
+    res.cookie("token",null,{
+        expires:new Date(Date.now()),
+        httpOnly:true
+    });
+
+    res.status(200).json({
+        success:true,
+        message:"Logged Out",
+    });
+});
+
+
+
+
+
+
 // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOTc3M2E5NTJhY2UzYTI3ZmEyZmZhYyIsImlhdCI6MTYzNzMxNTQ5NywiZXhwIjoxNjM3NzQ3NDk3fQ.JbGliuzAlQnsI7Vso3VQo8Ix6m8s39dsZIALn5MLWrc
 // User 2
 // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOTc3MzgyOWFlMmRiMzRiOGUxMGVkOCIsImlhdCI6MTYzNzMxNjM5OCwiZXhwIjoxNjM3NzQ4Mzk4fQ.lVypn7C2259rMvouRNtCT03_b60feFlgJAglxKEohnQ

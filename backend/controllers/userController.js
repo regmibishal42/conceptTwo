@@ -3,6 +3,7 @@ const User = require('../models/userModel');
 const sendToken = require('../utils/jwtToken');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const sendEmail = require('../utils/sendEmail');
+const crypto = require('crypto');
 
 // Register New User
 exports.registerNewUser = catchAsyncErrors(async (req,res,next) =>{
@@ -85,10 +86,35 @@ exports.forgetPassword = catchAsyncErrors(async(req,res,next)=>{
     }
 });
 
+// Reset Password Link 
+
+exports.resetPassword = catchAsyncErrors(async(req,res,next)=>{
+        const resetPasswordToken = crypto
+                                    .createHash('sha256')
+                                    .update(req.params.token)
+                                    .digest("hex");
+        
+        const user = await User.findOne({
+            resetPasswordToken,
+            resetPasswordExpire:{$gt:Date.now()}
+        });
+        if(!user){
+            return next(new ErrorHandler("Invalid or Expired Reset Password Link",404));
+        };
+        if(req.body.password !== req.body.confirmPassword){
+            return next(new ErrorHandler("Password doesnot Match",400));
+        }
+
+        user.password = req.body.password;
+        user.resetPasswordToken = undefined;
+        user.resetPasswordUrl = undefined;
+
+        await user.save();
+        sendToken(user,200,res);
+
+
+});
 
 
 
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOTc3M2E5NTJhY2UzYTI3ZmEyZmZhYyIsImlhdCI6MTYzNzMxNTQ5NywiZXhwIjoxNjM3NzQ3NDk3fQ.JbGliuzAlQnsI7Vso3VQo8Ix6m8s39dsZIALn5MLWrc
-// User 2
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOTc3MzgyOWFlMmRiMzRiOGUxMGVkOCIsImlhdCI6MTYzNzMxNjM5OCwiZXhwIjoxNjM3NzQ4Mzk4fQ.lVypn7C2259rMvouRNtCT03_b60feFlgJAglxKEohnQ
-// user1
+

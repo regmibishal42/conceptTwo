@@ -2,7 +2,7 @@ const ErrorHandler = require('../utils/errorHandler');
 const User = require('../models/userModel');
 const sendToken = require('../utils/jwtToken');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
-
+const sendEmail = require('../utils/sendEmail');
 
 // Register New User
 exports.registerNewUser = catchAsyncErrors(async (req,res,next) =>{
@@ -53,7 +53,37 @@ exports.logoutUser = catchAsyncErrors(async(req,res,next)=>{
     });
 });
 
+// Forget Password
+exports.forgetPassword = catchAsyncErrors(async(req,res,next)=>{
+    const user = await User.findOne({email:req.body.email});
+    if(!user){
+        return next(new ErrorHandler("User Not Found",404));
+    }
+    // Get Reset password Token
+    const resetToken = user.getResetPasswordToken();
+    await user.save({validateBeforeSave:false});
 
+    const resetPasswordUrl = `${req.protocol}://${req.get("host")}/api/v1/password/${resetToken}`;
+    const message = `Your Password Reset Token is: -\n\n ${resetPasswordUrl}  \n\n If you didnot request for this email then ignore it.`;
+
+    try{
+        await sendEmail({
+            email:user.email,
+            subject:'ConceptTwo Password Recovery',
+            message
+        });
+        res.status(200).json({
+            success:true,
+            message:`Email Send To ${user.email} successfully`,
+        });
+        
+    }catch(ex){
+        user.resetPasswordToken = undefined;
+        user.resetPasswordUrl = undefined;
+        await user.save({validateBeforeSave:false});
+        return next(new ErrorHandler(ex.message,500));
+    }
+});
 
 
 

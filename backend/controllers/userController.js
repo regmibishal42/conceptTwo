@@ -115,6 +115,17 @@ exports.resetPassword = catchAsyncErrors(async(req,res,next)=>{
 
 });
 
+exports.getUserDetails = catchAsyncErrors(async(req,res,next)=>{
+    // if User is logged in all his info is in req.user
+    const user = await User.findById(req.user.id);
+
+    res.status(200).json({
+        success:true,
+        user
+    });
+
+
+});
 
 
 

@@ -157,15 +157,39 @@ exports.updateProfile = catchAsyncErrors(async(req,res,next)=>{
         email:req.body.email
     }
     // Adding Couldify Profile Link Later
-    const user = user.findByIdAndUpadte(req.user.id,newUserData,{
+    const user = await User.findByIdAndUpdate(req.user.id,newUserData,{
         new:true,
         runValidators:true,
         useFindAndModify:false
     });
     res.status(200).json({
         success:true,
-        
+
     })
+});
+
+// Get All Users 
+
+exports.getAllUsers = catchAsyncErrors(async(req,res,next)=>{
+    const users = await User.find();
+
+    res.status(200).json({
+        success:true,
+        users
+    });
+});
+
+// Get Single User For Admin Panel in Frontend
+
+exports.getUser = catchAsyncErrors(async(req,res,next)=>{
+    const userDetails = await User.findById(req.params.id);
+    if(!user){
+        return next(new ErrorHandler('User Not Found',404));
+    };
+    res.status(200).json({
+        success:true,
+        userDetails
+    });
 });
 
 

@@ -115,6 +115,7 @@ exports.resetPassword = catchAsyncErrors(async(req,res,next)=>{
 
 });
 
+// Get User Details
 exports.getUserDetails = catchAsyncErrors(async(req,res,next)=>{
     // if User is logged in all his info is in req.user
     const user = await User.findById(req.user.id);
@@ -125,6 +126,46 @@ exports.getUserDetails = catchAsyncErrors(async(req,res,next)=>{
     });
 
 
+});
+
+// Update User Password
+exports.updatePassword = catchAsyncErrors(async(req,res,next)=>{
+
+    if(req.body.newPassword  !== req.body.confirmPassword){
+        return next(new ErrorHandler('New Passwords doesnot match',400));
+    };
+
+    const user = await User.findById(req.user.id).select('+password');
+
+    const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+    if(!isPasswordMatched){
+        return next(new ErrorHandler('Invalid Old Password',400));
+    };
+    user.password = req.body.newPassword;
+    await user.save();
+
+    sendToken(user,200,res);
+
+
+});
+
+// Update User Profile
+
+exports.updateProfile = catchAsyncErrors(async(req,res,next)=>{
+    const newUserData = {
+        name:req.body.name,
+        email:req.body.email
+    }
+    // Adding Couldify Profile Link Later
+    const user = user.findByIdAndUpadte(req.user.id,newUserData,{
+        new:true,
+        runValidators:true,
+        useFindAndModify:false
+    });
+    res.status(200).json({
+        success:true,
+        
+    })
 });
 
 

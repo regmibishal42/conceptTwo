@@ -168,6 +168,8 @@ exports.updateProfile = catchAsyncErrors(async(req,res,next)=>{
     })
 });
 
+
+
 // Get All Users 
 
 exports.getAllUsers = catchAsyncErrors(async(req,res,next)=>{
@@ -190,6 +192,34 @@ exports.getUser = catchAsyncErrors(async(req,res,next)=>{
         success:true,
         userDetails
     });
+});
+
+// Update User Role --Admin
+exports.updateUserRole = catchAsyncErrors(async(req,res,next)=>{
+    const newUserData = {
+        name:req.body.name,
+        email:req.body.email,
+        role:req.body.role
+    }
+    const user = await User.findByIdAndUpdate(req.params.id,newUserData,{
+        new:true,
+        runValidators:true,
+        useFindAndModify:false
+    });
+    res.status(200).json({
+        success:true,
+
+    })
+});
+
+// Delete User Profile --Admin
+exports.deleteUser = catchAsyncErrors(async(req,res,next)=>{
+    const user = await User.findById(req.params.id);
+
+    if(!user){
+        return next(new ErrorHandler(`User Doesnot Exist With id ${req.params.id}`,400));
+    }
+    await user.remove();
 });
 
 

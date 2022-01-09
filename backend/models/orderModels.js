@@ -1,4 +1,4 @@
-const mongoose = reqquire('mongoose');
+const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
     shippingInfo: {
@@ -34,7 +34,7 @@ const orderSchema = new mongoose.Schema({
     paymentInfo:{
         id:{type:String,required:true},
         status:{type:String,required:true},
-        paidAt:{type:Date,required:true},
+        paidAt:{type:Date},
         itemsPrice:{type:Number,default:0,required:true},
         taxPrice:{type:Number,default:0,required:true},
         shippingPrice:{type:Number,default:0,required:true},

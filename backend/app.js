@@ -10,8 +10,11 @@ app.use(cookieParser());
 // Importing The Routes 
 const products = require('./routers/productRoute');
 const user = require('./routers/userRoute');
+const order = require('./routers/orderRoutes');
+
 app.use('/api/v1',products);
 app.use('/api/v1',user);
+app.use('/api/v1',order);
 
 // Middleware For Errors in The REq,REs Pipeline
 app.use(errorMiddleware);

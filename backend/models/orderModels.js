@@ -34,12 +34,12 @@ const orderSchema = new mongoose.Schema({
     paymentInfo:{
         id:{type:String,required:true},
         status:{type:String,required:true},
-        paidAt:{type:Date},
-        itemsPrice:{type:Number,default:0,required:true},
-        taxPrice:{type:Number,default:0,required:true},
-        shippingPrice:{type:Number,default:0,required:true},
-        totalPrice:{type:Number,default:0,required:true}
     },
+    paidAt:{type:Date},
+    itemsPrice:{type:Number,default:0,required:true},
+    taxPrice:{type:Number,default:0,required:true},
+    shippingPrice:{type:Number,default:0,required:true},
+    totalPrice:{type:Number,default:0,required:true},
     orderStatus:{
         type:String,
         required:true,

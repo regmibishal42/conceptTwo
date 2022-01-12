@@ -1,3 +1,4 @@
 /node_modules
-/config/*
+/backend/config/*
+/frontend/node_modules
 

@@ -1,20 +1,26 @@
-import {BrowserRouter as Router} from "react-router-dom";
+import {BrowserRouter as Router, Route,Routes} from "react-router-dom";
 import Header from './components/layout/Header/header.js';
 import './App.css';
 import WebFont from 'webfontloader';
 import React, {useEffect} from 'react';
 import Footer from "./components/layout/Footer/footer.js";
+import Home from './components/Home/Home.js';
 
 function App() {
     useEffect(() => {
-            WebFont.load({
-                    google: {
-                    families: ["Roborto", "Droid Sans", "Chilanka"]
-                }}
-        )},
-    []
-);
-return <Router>
-    <Header/>
-    <Footer/>
-</Router>}export default App;
+        WebFont.load({
+            google: {
+              families: ["Roboto", "Droid Sans", "Chilanka"],
+            },
+          });
+    }, []);
+    return <Router>
+        <Header/>
+        <Routes>
+        <Route path='/'
+            element={<Home />}/>
+        </Routes>
+        <Footer/>
+    </Router>
+}
+export default App;

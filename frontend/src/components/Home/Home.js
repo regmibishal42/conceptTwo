@@ -1,13 +1,13 @@
 import React, {Fragment} from 'react';
 import {CgMouse} from 'react-icons/cg';
-import Product from "./Products.js";
+import Product from "./Product.js";
 import "./Home.css";
 
 
 // Temporarry Products until Fetching real products using Redux
 const product = {
     name:"Hand Guard Ktm Duke",
-    images:[{url:''}],
+    images:[{url:'https://hardwarepasal.com/src/img/product/multipleimages/2019-03-25-06-30-43_PaWaKHNxBR.jpg'}],
     price:3500,
     _id:'dukehandid001'
 };
@@ -27,6 +27,13 @@ const Home = () => {
 
 {/* Displaying Products Here -- Products Section Here */}
         <div className='container' id="container">
+            <Product product={product} />
+            <Product product={product} />
+            <Product product={product} />
+            <Product product={product} />
+            <Product product={product} />
+            <Product product={product} />
+            <Product product={product} />
             <Product product={product} />
         </div>
     </Fragment>

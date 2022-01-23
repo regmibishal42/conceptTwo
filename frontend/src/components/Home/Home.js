@@ -1,20 +1,29 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import {CgMouse} from 'react-icons/cg';
 import Product from "./Product.js";
 import "./Home.css";
+import MetaData from '../layout/metadata';
+import {getProduct} from "../../actions/productAction";
+import {useSelector,useDispatch} from "react-redux";
 
 
 // Temporarry Products until Fetching real products using Redux
-const product = {
-    name:"Hand Guard Ktm Duke",
-    images:[{url:'https://hardwarepasal.com/src/img/product/multipleimages/2019-03-25-06-30-43_PaWaKHNxBR.jpg'}],
-    price:3500,
-    _id:'dukehandid001'
-};
+// const product = {
+//     name:"Hand Guard Ktm Duke",
+//     images:[{url:'https://hardwarepasal.com/src/img/product/multipleimages/2019-03-25-06-30-43_PaWaKHNxBR.jpg'}],
+//     price:3500,
+//     _id:'dukehandid001'
+// };
 
 
 const Home = () => {
+    const dispatch = useDispatch();
+    const {loading,error,products} = useSelector((state) => state.products);
+    useEffect(()=>{
+        dispatch(getProduct());
+    },[dispatch]);
     return <Fragment>
+        <MetaData title="conceptTwo"/>
         <div className='banner'>
             <p>Welcome To conceptTwo</p>
 
@@ -27,14 +36,9 @@ const Home = () => {
 
 {/* Displaying Products Here -- Products Section Here */}
         <div className='container' id="container">
-            <Product product={product} />
-            <Product product={product} />
-            <Product product={product} />
-            <Product product={product} />
-            <Product product={product} />
-            <Product product={product} />
-            <Product product={product} />
-            <Product product={product} />
+            {products && products.map(product =>(
+                <Product key={product._id} product={product} />
+            ))}
         </div>
     </Fragment>
 }

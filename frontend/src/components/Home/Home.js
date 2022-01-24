@@ -4,8 +4,9 @@ import Product from "./Product.js";
 import "./Home.css";
 import MetaData from '../layout/metadata';
 import {getProduct} from "../../actions/productAction";
-import {useSelector,useDispatch} from "react-redux";
-
+import {useSelector, useDispatch} from "react-redux";
+import Loader from '../layout/Loader/Loader.js';
+import {useAlert} from 'react-alert';
 
 // Temporarry Products until Fetching real products using Redux
 // const product = {
@@ -17,30 +18,45 @@ import {useSelector,useDispatch} from "react-redux";
 
 
 const Home = () => {
+    const alert = useAlert();
     const dispatch = useDispatch();
-    const {loading,error,products} = useSelector((state) => state.products);
-    useEffect(()=>{
+    const {loading, error, products} = useSelector((state) => state.products);
+    useEffect(() => {
+        if(error){
+            return alert.error(error);
+        }
         dispatch(getProduct());
-    },[dispatch]);
-    return <Fragment>
-        <MetaData title="conceptTwo"/>
-        <div className='banner'>
-            <p>Welcome To conceptTwo</p>
+    }, [dispatch,error]);
+    return (
+        <Fragment> {
+            loading ? (
+                <Loader/>) : (
+                <Fragment>
+                    <MetaData title="conceptTwo"/>
+                    <div className='banner'>
+                        <p>Welcome To conceptTwo</p>
 
-            <h1>Find Amazing Products</h1>
-            <a href='#container'>
-                <button>Scroll<CgMouse/></button>
-            </a>
-        </div>
-        <h2 className='homeHeading'>Featured Products</h2>
+                        <h1>Find Amazing Products</h1>
+                        <a href='#container'>
+                            <button>Scroll<CgMouse/></button>
+                        </a>
+                    </div>
+                    <h2 className='homeHeading'>Featured Products</h2>
 
-{/* Displaying Products Here -- Products Section Here */}
-        <div className='container' id="container">
-            {products && products.map(product =>(
-                <Product key={product._id} product={product} />
-            ))}
-        </div>
-    </Fragment>
+                    {/* Displaying Products Here -- Products Section Here */}
+                    <div className='container' id="container">
+                        {
+                        products && products.map(product => (
+                            <Product key={
+                                    product._id
+                                }
+                                product={product}/>
+                        ))
+                    } </div>
+                </Fragment>
+            )
+        } </Fragment>
+    )
 }
 
 export default Home

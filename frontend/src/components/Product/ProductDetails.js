@@ -8,6 +8,7 @@ import ReactStars from 'react-rating-stars-component';
 import ReviewCard from './ReviewCard.js';
 import Loader from '../layout/Loader/Loader.js';
 import {useAlert} from "react-alert";
+import MetaData from '../layout/metadata';
 
 // https://rukminim1.flixcart.com/image/416/416/bike-crash-guard/7/m/8/cbzlh0010d200-390-corebikerz-original-imaeqy4rbcjgspyz.jpeg?q=70
 const ProductDetails = () => {
@@ -34,7 +35,9 @@ const ProductDetails = () => {
     }
     return (
         <Fragment>
+            
             {loading ? <Loader /> :<Fragment>
+                <Meta Data title={`${product.name} --conceptTwo`} />
         <div className='ProductDetails'>
             <div>
             <Carousel>

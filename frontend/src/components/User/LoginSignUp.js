@@ -4,7 +4,7 @@ import Loader from '../layout/Loader/Loader';
 import {MailOutline,LockOpenRounded, FaceRetouchingOffRounded, MailOutlined} from '@mui/icons-material';
 import {Link} from 'react-router-dom';
 import {useDispatch,useSelector} from 'react-redux';
-import {clearErrros,login} from '../../actions/userAction';
+import {clearErrros,login,register} from '../../actions/userAction';
 import {useAlert} from 'react-alert';
 import {useNavigate} from 'react-router-dom';
 
@@ -42,7 +42,7 @@ export const LoginSignUp = () => {
         myForm.set("email",email);
         myForm.set("password",password);
         myForm.set("avatar",avatar);
-        console.log('Sign Up Form Submitted');
+        dispatch(register(myForm));
     };
     const registerDataChange = (e) =>{
         if(e.target.name === 'avatar'){

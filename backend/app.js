@@ -24,3 +24,4 @@ app.use('/api/v1',order);
 app.use(errorMiddleware);
 
 module.exports = app;
+

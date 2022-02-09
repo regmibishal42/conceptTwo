@@ -4,7 +4,7 @@ import Loader from '../layout/Loader/Loader';
 import {MailOutline,LockOpenRounded, FaceRetouchingOffRounded, MailOutlined} from '@mui/icons-material';
 import {Link} from 'react-router-dom';
 import {useDispatch,useSelector} from 'react-redux';
-import {clearErrros,login,register} from '../../actions/userAction';
+import {clearErrors,login,register} from '../../actions/userAction';
 import {useAlert} from 'react-alert';
 import {useNavigate} from 'react-router-dom';
 
@@ -62,7 +62,7 @@ export const LoginSignUp = () => {
     useEffect(() => {
      if(error){
          alert.error(error);
-         dispatch(clearErrros());
+         dispatch(clearErrors());
      }
      if(isAuthenticated){
         navigate('/account');    

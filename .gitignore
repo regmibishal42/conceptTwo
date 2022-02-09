@@ -1,6 +1,5 @@
 /node_modules
-*config
-*.env
-*congif.env
+**/config
+/congif.env
 /frontend/node_modules
 

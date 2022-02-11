@@ -74,9 +74,10 @@ userSchema.methods.getJwtToken = function () {
 }
 
 // comapre Password
-userSchema.methods.comparePassword = async function (enterdPassword) {
-    return await becrypt.compare(enterdPassword, this.password);
-}
+
+userSchema.methods.comparePassword = async function (password) {
+    return await becrypt.compare(password, this.password);
+  };
 
 // Generating Reset Password Token
 userSchema.methods.getResetPasswordToken = function(){

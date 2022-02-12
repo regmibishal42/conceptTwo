@@ -76,6 +76,7 @@ exports.forgetPassword = catchAsyncErrors(async (req, res, next) => {
     const message = `Your Password Reset Token is: -\n\n ${resetPasswordUrl}  \n\n If you didnot request for this email then ignore it.`;
 
     try {
+        console.log('Hello');
         await sendEmail({email: user.email, subject: 'ConceptTwo Password Recovery', message});
         res.status(200).json({success: true, message: `Email Send To ${
                 user.email

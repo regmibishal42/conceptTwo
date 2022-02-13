@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment, useEffect,useState} from 'react';
 import Carousel from 'react-material-ui-carousel';
 import "./ProductDetails.css";
 import {useSelector, useDispatch} from 'react-redux';
@@ -9,6 +9,7 @@ import ReviewCard from './ReviewCard.js';
 import Loader from '../layout/Loader/Loader.js';
 import {useAlert} from "react-alert";
 import MetaData from '../layout/metadata';
+import {addItemsToCart} from '../../actions/cartAction';
 
 // https://rukminim1.flixcart.com/image/416/416/bike-crash-guard/7/m/8/cbzlh0010d200-390-corebikerz-original-imaeqy4rbcjgspyz.jpeg?q=70
 const ProductDetails = () => {
@@ -25,6 +26,11 @@ const ProductDetails = () => {
         dispatch(getProductDetails(id));
     }, [dispatch, id,error,alert]);
 
+    const addToCartHandler = () =>{
+        dispatch(addItemsToCart(id,quantity));
+        alert.success("Items Added To Cart");
+    }
+
     const options = {
         edit:false,
         color:"rbga(20,20,20,0.1)",
@@ -32,6 +38,16 @@ const ProductDetails = () => {
         size:window.innerWidth <600 ?20:25,
         value:product.rating,
         isHalf:true,
+    }
+    const [quantity, setQuantity] = useState(1);
+    const increaseQuantity = () =>{
+        if(product.stock <= quantity) return;
+        const qty = quantity + 1;
+        setQuantity(qty);
+    }
+    const decreaseQuantity =() =>{
+        if(quantity === 1) return;
+        setQuantity(quantity-1); 
     }
     return (
         <Fragment>
@@ -76,11 +92,11 @@ const ProductDetails = () => {
                     }</h1>
                     <div className='detailsBlock-3-1'>
                         <div className='detailsBlock-3-1-1'>
-                            <button>-</button>
-                            <input value='1' type='number'/>
-                            <button>+</button>
+                            <button onClick={decreaseQuantity}>-</button>
+                            <input readOnly value={quantity} type='number'/>
+                            <button onClick={increaseQuantity}>+</button>
                         </div>
-                        <button>Add To Cart</button>
+                        <button onClick={addToCartHandler}>Add To Cart</button>
                     </div>
                     <p>Status:<b className={
                             product.stock < 1 ? "redColor" : "greenColor"

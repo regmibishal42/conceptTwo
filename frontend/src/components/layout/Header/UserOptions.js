@@ -3,7 +3,7 @@ import './Header.css';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import { Backdrop } from '@mui/material';
-import { ExitToApp,ListAlt,Dashboard,Person,RemoveShoppingCart} from '@mui/icons-material';
+import { ExitToApp,ListAlt,Dashboard,Person,ShoppingCart} from '@mui/icons-material';
 import {Navigate, useNavigate} from 'react-router-dom';
 import {useAlert} from 'react-alert';
 import {logout} from '../../../actions/userAction';
@@ -19,7 +19,7 @@ export const UserOptions = ({user}) => {
     const options = [
         {icon:<ListAlt />,name:'Orders',func:orders},
         {icon:<Person /> ,name:"Profile",func:account},
-        {icon:<RemoveShoppingCart/>,name:`Cart (${cartItems.length})`,func:cart},
+        {icon:<ShoppingCart styel={{color:cartItems.length>0?"tomato":"unset"}}/>,name:`Cart (${cartItems.length})`,func:cart},
         {icon:<ExitToApp />,name:"Logout",func:logoutUser},
     ];
     if(user.role ==='admin'){
@@ -39,7 +39,7 @@ export const UserOptions = ({user}) => {
       alert.success("Logout SuccessFully");
     }
     function cart(){
-      Navigate('/cart');
+      navigator('/cart');
     }
 
   return <>
@@ -55,7 +55,7 @@ export const UserOptions = ({user}) => {
         icon={<img className='speedDialIcon' src={user.avatar.url ? user.avatar.url : '/Profile.png'} alt='Profile'/>}
         >
           {options.map((item)=>(
-            <SpeedDialAction icon={item.icon} tooltipTitle={item.name} onClick={item.func} key={item.name}/>
+            <SpeedDialAction icon={item.icon} tooltipTitle={item.name} onClick={item.func} key={item.name} tooltipOpen={window.innerWidth <=600 ? true:false}/>
           ))}
 
     </SpeedDial>

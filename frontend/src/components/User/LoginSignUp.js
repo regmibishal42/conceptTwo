@@ -6,12 +6,13 @@ import {Link} from 'react-router-dom';
 import {useDispatch,useSelector} from 'react-redux';
 import {clearErrors,login,register} from '../../actions/userAction';
 import {useAlert} from 'react-alert';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate,useLocation} from 'react-router-dom';
 
 export const LoginSignUp = () => {
     const dispatch = useDispatch();
     const alert = useAlert();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const {error,loading,isAuthenticated} = useSelector(state => state.user)
     
@@ -58,6 +59,7 @@ export const LoginSignUp = () => {
             setUser({...user,[e.target.name]:e.target.value})
         }
     };
+    const redirect = location.search ? location.search.split("=")[1] : "/account";
 
     useEffect(() => {
      if(error){
@@ -65,7 +67,7 @@ export const LoginSignUp = () => {
          dispatch(clearErrors());
      }
      if(isAuthenticated){
-        navigate('/account');    
+        navigate(redirect);    
      }
    
     }, [dispatch,alert,navigate,isAuthenticated]);

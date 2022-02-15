@@ -5,10 +5,11 @@ import {useSelector,useDispatch} from 'react-redux';
 import {addItemsToCart,removeItemsFromCart} from '../../actions/cartAction';
 import {Typography} from "@mui/material";
 import {RemoveShoppingCart} from '@mui/icons-material';
-import {Link} from 'react-router-dom';
+import {Link,useNavigate} from 'react-router-dom';
 
 const Cart = () => {
     const dispatch = useDispatch();
+    const history = useNavigate();
     const {cartItems} = useSelector((state)=>state.cart);
     const increaseQuantity = (id,quantity,stock) =>{
         const newQty = quantity + 1;
@@ -23,6 +24,9 @@ const Cart = () => {
     }
     const deleteCartItem = (id) =>{
         dispatch(removeItemsFromCart(id));
+    };
+    const checkOutHandler = () =>{
+        history("/login?redirect=shipping");
     }
   return (
         <Fragment>
@@ -43,8 +47,8 @@ const Cart = () => {
                         </div>
                     {cartItems && cartItems.map((item)=>(
                                     <div className="cartContainer">
-                                    <CartItemCard item={item} deleteCartItem={deleteCartItem}/>
-                                    <div className="cartInput" key={item.product}>
+                                    <CartItemCard item={item} deleteCartItem={deleteCartItem} key={item.product}/>
+                                    <div className="cartInput" >
                                         <button onClick={()=>decreaseQuantity(item.product,item.quantity)}>-</button>
                                         <input type='number' readOnly value={item.quantity}/>
                                         <button onClick={()=>increaseQuantity(item.product,item.quantity,item.stock)}>+</button>
@@ -57,11 +61,13 @@ const Cart = () => {
                             </div>
                             <div className="cartGrossProfitBox">
                                 <p>Gross Total</p>
-                                <p>{`रु600`}</p>
+                                <p>{`रु${cartItems.reduce(
+                                    (acc,item) => acc + item.quantity*item.price,0
+                                )}`}</p>
                             </div>
                             <div></div>
                             <div className="checkOutBtn">
-                                <button>Check Out</button>
+                                <button onClick={checkOutHandler}>Check Out</button>
                             </div>
                         </div>
                     </div>

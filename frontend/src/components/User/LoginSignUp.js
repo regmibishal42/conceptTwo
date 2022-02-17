@@ -60,7 +60,6 @@ export const LoginSignUp = () => {
         }
     };
     const redirect = location.search ? location.search.split("=")[1] : "/account";
-
     useEffect(() => {
      if(error){
          alert.error(error);
@@ -70,7 +69,7 @@ export const LoginSignUp = () => {
         navigate(redirect);    
      }
    
-    }, [dispatch,alert,navigate,isAuthenticated]);
+    }, [dispatch,alert,redirect,navigate,isAuthenticated]);
     
 
     const switchTabs = (e,tab) =>{

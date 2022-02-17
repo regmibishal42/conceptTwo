@@ -21,6 +21,7 @@ import {ForgetPassword} from './components/User/ForgetPassword.js';
 import ResetPassword from './components/User/ResetPassword.js';
 import Cart from './components/Cart/Cart.js';
 import Shipping from './components/Cart/Shipping.js';
+import ConfirmOrder from './components/Cart/ConfirmOrder.js';
 
 
  function App() {
@@ -52,7 +53,8 @@ import Shipping from './components/Cart/Shipping.js';
         <Route path='/account' element={<ProtectedRoute component={Profile} />} />
         <Route path='/me/update' element={<ProtectedRoute component={UpdateProfile}/>} />
         <Route path='/password/update' element={<ProtectedRoute component={UpdatePassword} />} />
-        <Route path='/shipping' element={<ProtectedRoute component={Shipping} />} />
+        <Route path='/login/shipping' element={<ProtectedRoute component={Shipping} />} />
+        <Route path="/order/confirm" element={<ProtectedRoute component={ConfirmOrder} />} />
         </Routes>
         <Footer/>
     </Router>

@@ -1,6 +1,6 @@
 export const nepaliStates = [
-    {name:"प्रदेश नं० १ ",enName="Province No. 1"},
-    {name:"प्रदेश नं० २",enName:"Madhesh"},
+    {name:"प्रदेश नं १ ",enName:"Province No.1"},
+    {name:"प्रदेश नं २",enName:"Madhesh"},
     {name:"वाग्मती",enName:"Bagmati"},
     {name:"गण्डकी",enName:"Gandaki"},
     {name:"लुम्बिनी",enName:"Lumbani"},

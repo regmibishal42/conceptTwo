@@ -4,7 +4,8 @@ import {useSelector, useDispatch} from 'react-redux';
 import {saveShippingInfo} from '../../actions/cartAction';
 import MetaData from '../layout/metadata';
 import {nepaliStates} from './districtNames';
-
+import CheckoutSteps from "./CheckoutSteps.js";
+import {useNavigate} from 'react-router-dom';
 import {
     Home,
     LocationCity,
@@ -16,6 +17,7 @@ import {useAlert} from 'react-alert';
 const Shipping = () => {
     const dispatch = useDispatch();
     const alert = useAlert();
+    const navigate = useNavigate();
     const {shippingInfo} = useSelector(state => state.cart);
     const [address, setAddress] = useState(shippingInfo.address);
     const [city, setCity] = useState(shippingInfo.city);
@@ -24,11 +26,18 @@ const Shipping = () => {
 
     const shippingSubmit = (e) =>{
         e.preventDefault();
+        if(phoneNo.length < 10 || phoneNo.length > 10){
+            alert.error("Phone No should Be 10 Digits");
+            return;
+        }
+        dispatch(saveShippingInfo({address,city,state,phoneNo}));
+        navigate("/order/confirm");
     }
   
     return (
         <Fragment>
             <MetaData title="Shipping Details" />
+            <CheckoutSteps activeSteps={0} />
             <div className="shippingContainer">
                 <div className="shippingBox">
                     <form className='shippingForm' encType='multipart/form-data'
@@ -73,8 +82,8 @@ const Shipping = () => {
                                 ))
                             } </select>
                         </div>
-                        <input type="subit"
-                            value="Container"
+                        <input type="submit"
+                            value="Continue"
                             className="shippingBtn"
                             disabled={state ? false :true} 
                             />

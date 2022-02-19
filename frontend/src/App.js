@@ -22,10 +22,12 @@ import ResetPassword from './components/User/ResetPassword.js';
 import Cart from './components/Cart/Cart.js';
 import Shipping from './components/Cart/Shipping.js';
 import ConfirmOrder from './components/Cart/ConfirmOrder.js';
+import PaymentCard  from './components/Cart/Payment.js';
 
 
  function App() {
   const {isAuthenticated,user} = useSelector(state => state.user);
+
 
     useEffect(() => {
         WebFont.load({
@@ -55,6 +57,7 @@ import ConfirmOrder from './components/Cart/ConfirmOrder.js';
         <Route path='/password/update' element={<ProtectedRoute component={UpdatePassword} />} />
         <Route path='/login/shipping' element={<ProtectedRoute component={Shipping} />} />
         <Route path="/order/confirm" element={<ProtectedRoute component={ConfirmOrder} />} />
+        <Route path='/process/payment' element={<ProtectedRoute component={PaymentCard} />} />
         </Routes>
         <Footer/>
     </Router>

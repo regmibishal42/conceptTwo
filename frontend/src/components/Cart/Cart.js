@@ -45,9 +45,9 @@ const Cart = () => {
                             <p>Quantity</p>
                             <p>Subtotal</p>
                         </div>
-                    {cartItems && cartItems.map((item)=>(
+                    {cartItems && cartItems.map((item,index)=>(
                                     <div className="cartContainer">
-                                    <CartItemCard item={item} deleteCartItem={deleteCartItem} key={item.product}/>
+                                    <CartItemCard item={item} deleteCartItem={deleteCartItem} key={index}/>
                                     <div className="cartInput" >
                                         <button onClick={()=>decreaseQuantity(item.product,item.quantity)}>-</button>
                                         <input type='number' readOnly value={item.quantity}/>

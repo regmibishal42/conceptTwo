@@ -22,41 +22,34 @@ const PaymentCard = () => {
       const {data} = await axios.get('/api/v1//khalti/key');
       setKhaltiPublicKey(data.khaltiPublicKey);
     };
-    {console.log(cartItems)}
 
     let config = {
         // replace this key with yours
-        "publicKey": khaltiPublicKey,
+        "publicKey": "test_public_key_879c0f26fa014ba784c24cdb6015065e",
         "productIdentity": cartItems[0].product,
         "productName": cartItems[0].name,
         "productUrl": cartItems[0].image,
         "eventHandler": {
             async onSuccess (payload) {
-                // const paymentData = {
-                //     amount:payload.amount,
-                //     token:payload.token
-                // };
-                // const headerConfig = {headers:{"Content-Type":"application/json"}};
-                // const {data} = await axios.post("/api/v1/payment/process",paymentData,headerConfig);
-                // console.log(data);
-                // console.log(payload);
-                console.log(payload);
-                let data = {
-                  token: payload.token,
-                  amount: payload.amount,
+                const paymentData = {
+                    amount:payload.amount,
+                    token:payload.token
                 };
-          
-                axios
-                  .get(
-                    `https://meslaforum.herokuapp.com/khalti/${data.token}/${data.amount}/${khaltiPublicKey}`
-                  )
-                  .then((response) => {
-                    console.log(response.data);
-                    alert.success("Thank you for generosity");
-                  })
-                  .catch((error) => {
-                    console.log(error);
-                  });
+                const headerConfig = {headers:{"Content-Type":"application/json","Access-Control-Allow-Origin": "*"}};
+                const {data} = await axios.post("/api/v1/payment/process",paymentData,headerConfig);
+                console.log("Payment Success",data);
+
+                // axios
+                //   .get(
+                //     `https://meslaforum.herokuapp.com/khalti/${data.token}/${data.amount}/${khaltiPublicKey}`
+                //   )
+                //   .then((response) => {
+                //     console.log(response.data);
+                //     alert.success("Thank you for generosity");
+                //   })
+                //   .catch((error) => {
+                //     console.log(error);
+                //   });
             },
             // onError handler is optional
             onError (error) {
@@ -81,6 +74,7 @@ const PaymentCard = () => {
     };
     useEffect(() => {
         getPublicKey();
+        
     }, []);
     
   return (

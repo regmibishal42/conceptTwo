@@ -3,8 +3,7 @@ const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const axios = require('axios');
 
 
-exports.processPayment = catchAsyncErrors(async (req, res, next) => {
-
+exports.processPayment =  (req, res) => {
     const data = {
         "token": req.body.token,
         "amount": req.body.amount
@@ -12,13 +11,26 @@ exports.processPayment = catchAsyncErrors(async (req, res, next) => {
     console.log(data);
     let config = {
         headers: {
-            'Authorization': process.env.KHALTI_SECRET_KEY
+            'Authorization':`Key ${process.env.KHALTI_SECRET_KEY}`,
+            "Content-Type": 'application/json',
+            "Access-Control-Allow-Origin": "*"
         }
     };
-    const response = await axios.post(`https://khalti.com/api/v2/payment/verify/`, data, config);
-    res.status(200).json({ success: true, response});
 
+axios.post("https://khalti.com/api/v2/payment/verify/", data, config)
+.then(response => {
+    console.log(response.data);
+    res.status(200).json({ success: true, data:response.data});
+})
+.catch(error => {
+    console.log(error);
+    res.status(500).json({success:false,error:error.response.data});
 });
+    // const {response,error} = await axios.post(`https://khalti.com/api/v2/payment/verify/`, data, config);
+    // if(response.data) return res.status(200).json({ success: true, data:response.data});
+    // return res.status(500).json({success:false,error:error.response.data});
+
+};
 
 exports.sendKhaltiKey = catchAsyncErrors(async (req, res, next) => {
     res.status(200).json({success: true, khaltiPublicKey: process.env.KHALTI_PUBLIC_KEY});

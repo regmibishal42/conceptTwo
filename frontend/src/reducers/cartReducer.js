@@ -29,7 +29,7 @@ export const cartReducer = (state={cartItems:[],shippingInfo:{}},action) =>{
         case SAVE_SHIPPING_INFO:
             return{
                 ...state,
-                cartItems:[...state.cartItems,item]
+                shippingInfo: action.payload,
             };
         default:
             return state;

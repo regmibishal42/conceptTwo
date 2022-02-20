@@ -11,30 +11,63 @@ import axios from 'axios';
 const PaymentCard = () => {
     const dispatch = useDispatch();
     const alert = useAlert();
+    const payBtn = useRef(null);
     const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
     const [khaltiPublicKey,setKhaltiPublicKey] = useState("");
+    const {user} =  useSelector((state)=>state.user);
+    const {cartItems} = useSelector(state=>state.cart);
+
+
     async function getPublicKey() {
       const {data} = await axios.get('/api/v1//khalti/key');
       setKhaltiPublicKey(data.khaltiPublicKey);
     };
+    {console.log(cartItems)}
+
     let config = {
         // replace this key with yours
         "publicKey": khaltiPublicKey,
-        "productIdentity": "1234567890",
-        "productName": "Drogon",
-        "productUrl": "http://gameofthrones.com/buy/Dragons",
+        "productIdentity": cartItems[0].product,
+        "productName": cartItems[0].name,
+        "productUrl": cartItems[0].image,
         "eventHandler": {
-            onSuccess (payload) {
-                // hit merchant api for initiating verfication
+            async onSuccess (payload) {
+                // const paymentData = {
+                //     amount:payload.amount,
+                //     token:payload.token
+                // };
+                // const headerConfig = {headers:{"Content-Type":"application/json"}};
+                // const {data} = await axios.post("/api/v1/payment/process",paymentData,headerConfig);
+                // console.log(data);
+                // console.log(payload);
                 console.log(payload);
+                let data = {
+                  token: payload.token,
+                  amount: payload.amount,
+                };
+          
+                axios
+                  .get(
+                    `https://meslaforum.herokuapp.com/khalti/${data.token}/${data.amount}/${khaltiPublicKey}`
+                  )
+                  .then((response) => {
+                    console.log(response.data);
+                    alert.success("Thank you for generosity");
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
             },
             // onError handler is optional
             onError (error) {
                 // handle errors
+                console.log('Error At Payment',error);
                alert.error(error);
+               payBtn.current.disabled=false;
             },
             onClose () {
                 console.log('widget is closing');
+                payBtn.current.disabled = false;
             }
         },
         "paymentPreference": ["KHALTI", "EBANKING","MOBILE_BANKING", "CONNECT_IPS", "SCT"],
@@ -43,7 +76,8 @@ const PaymentCard = () => {
     const submitHandler = (event) =>{
 
         event.preventDefault();
-        checkout.show({amount: 1000});
+        payBtn.current.disabled = true;
+        checkout.show({amount: orderInfo.totalPrice});
     };
     useEffect(() => {
         getPublicKey();
@@ -59,7 +93,7 @@ const PaymentCard = () => {
                 <input
             type="submit"
             value={`Pay - ${orderInfo && orderInfo.totalPrice}`}
-            // ref={payBtn}
+            ref={payBtn}
             className="paymentFormBtn"
           />
             </form>

@@ -23,6 +23,7 @@ import Cart from './components/Cart/Cart.js';
 import Shipping from './components/Cart/Shipping.js';
 import ConfirmOrder from './components/Cart/ConfirmOrder.js';
 import PaymentCard  from './components/Cart/Payment.js';
+import OrderSuccess from './components/Cart/OrderSuccess.js';
 
 
  function App() {
@@ -58,6 +59,7 @@ import PaymentCard  from './components/Cart/Payment.js';
         <Route path='/login/shipping' element={<ProtectedRoute component={Shipping} />} />
         <Route path="/order/confirm" element={<ProtectedRoute component={ConfirmOrder} />} />
         <Route path='/process/payment' element={<ProtectedRoute component={PaymentCard} />} />
+        <Route path="/success" element={<ProtectedRoute component={OrderSuccess}/>} />
         </Routes>
         <Footer/>
     </Router>

@@ -5,27 +5,39 @@ import KhaltiCheckout from 'khalti-checkout-web';
 import { useSelector,useDispatch } from 'react-redux';
 import { Typography } from '@mui/material';
 import { useAlert } from 'react-alert';
+import {useNavigate} from 'react-router-dom';
 import  './Payment.css';
 import axios from 'axios';
+import {clearErrors,createOrder} from '../../actions/orderAction';
 
 const PaymentCard = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const alert = useAlert();
     const payBtn = useRef(null);
     const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
     const [khaltiPublicKey,setKhaltiPublicKey] = useState("");
-    const {user} =  useSelector((state)=>state.user);
-    const {cartItems} = useSelector(state=>state.cart);
+    const {error} = useSelector((state)=>state.newOrder);
+    const {cartItems,shippingInfo} = useSelector(state=>state.cart);
 
 
     async function getPublicKey() {
       const {data} = await axios.get('/api/v1//khalti/key');
       setKhaltiPublicKey(data.khaltiPublicKey);
     };
+    const order = {
+        shippingInfo,
+        orderItems:cartItems,
+        // paymentInfo,
+        itemsPrice:orderInfo.subtotal,
+        taxPrice:orderInfo.tax,
+        shippingPrice:orderInfo.shippingCharges,
+        totalPrice:orderInfo.totalPrice
+    };
 
     let config = {
         // replace this key with yours
-        "publicKey": "test_public_key_879c0f26fa014ba784c24cdb6015065e",
+        "publicKey": khaltiPublicKey,
         "productIdentity": cartItems[0].product,
         "productName": cartItems[0].name,
         "productUrl": cartItems[0].image,
@@ -38,18 +50,19 @@ const PaymentCard = () => {
                 const headerConfig = {headers:{"Content-Type":"application/json","Access-Control-Allow-Origin": "*"}};
                 const {data} = await axios.post("/api/v1/payment/process",paymentData,headerConfig);
                 console.log("Payment Success",data);
+                if(data.success){
+                    console.log(data.data.idx);
+                    console.log(order);
+                    order.paymentInfo = {
+                        id:data.data.idx,
+                        status:"Completed"
+                    };
+                    dispatch(createOrder(order));
+                    navigate('/success');
+                    
+                }
 
-                // axios
-                //   .get(
-                //     `https://meslaforum.herokuapp.com/khalti/${data.token}/${data.amount}/${khaltiPublicKey}`
-                //   )
-                //   .then((response) => {
-                //     console.log(response.data);
-                //     alert.success("Thank you for generosity");
-                //   })
-                //   .catch((error) => {
-                //     console.log(error);
-                //   });
+            
             },
             // onError handler is optional
             onError (error) {
@@ -71,11 +84,21 @@ const PaymentCard = () => {
         event.preventDefault();
         payBtn.current.disabled = true;
         checkout.show({amount: orderInfo.totalPrice});
+        // order.paymentInfo = {
+        //     id:"randomidhafj",
+        //     status:"Completed"
+        // };
+        // dispatch(createOrder(order));
+
     };
     useEffect(() => {
         getPublicKey();
+        if(error){
+            alert.error(error);
+            dispatch(clearErrors());
+        }
         
-    }, []);
+    }, [error,dispatch,alert]);
     
   return (
    <Fragment>
@@ -86,7 +109,7 @@ const PaymentCard = () => {
                 <Typography>Payment With Khalti</Typography>
                 <input
             type="submit"
-            value={`Pay - ${orderInfo && orderInfo.totalPrice}`}
+            value={`Pay - रु.${orderInfo && orderInfo.totalPrice}`}
             ref={payBtn}
             className="paymentFormBtn"
           />

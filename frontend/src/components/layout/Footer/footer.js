@@ -19,9 +19,9 @@ function Footer() {
             </div>
             <div className="rightFooter">
                 <h4>Follow Our Developers</h4>
-                <a href='https://www.instagram.com/vishal_regmi42/'>Bishal Regmi</a>
-                <a href='https://www.instagram.com/grishmaximoff/'>Grishma Shrestha</a>
-                <a href='https://www.instagram.com/aryaliuss/'>Aayush Aryal</a>
+                <a href='https://www.instagram.com/vishal_regmi42/' target='_blank'>Bishal Regmi</a>
+                <a href='https://www.instagram.com/grishmaximoff/' target='_blank'>Grishma Shrestha</a>
+                <a href='https://www.instagram.com/aryaliuss/' target='_blank'>Aayush Aryal</a>
             </div>
         </footer>
     )

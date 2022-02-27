@@ -26,6 +26,7 @@ import PaymentCard  from './components/Cart/Payment.js';
 import OrderSuccess from './components/Cart/OrderSuccess.js';
 import MyOrders from './components/Order/MyOrders.js';
 import OrderDetails from './components/Order/OrderDetails.js';
+import {Dashboard} from './components/admin/Dashboard.js';
 
 
  function App() {
@@ -64,6 +65,8 @@ import OrderDetails from './components/Order/OrderDetails.js';
         <Route path="/success" element={<ProtectedRoute component={OrderSuccess}/>} />
         <Route path='/orders' element={<ProtectedRoute component={MyOrders}/>} />
         <Route path='/order/:id' element={<ProtectedRoute component={OrderDetails} />} />
+        
+        <Route path="/admin/dashboard" element={<ProtectedRoute component={Dashboard}/>} />
         </Routes>
         <Footer/>
     </Router>

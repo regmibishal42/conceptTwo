@@ -122,6 +122,21 @@
     color: rgba(0, 0, 0, 0.534);
     font: 300 0.8vmax sans-serif;
   }
+  .submitButton{
+    border: none;
+    cursor: pointer;
+    color: white;
+    transition: all 0.5s;
+    background-color: tomato;
+    font: 500 0.7vmax "Roboto";
+    border-radius: 20px;
+    padding: 0.5vmax 2vmax;
+    margin: 1vmax;
+    outline: none;
+  }
+  .submitButton:hover{
+    background-color: rgb(214, 84, 61);
+  }
 
   .submitReview {
     border: none;
@@ -134,6 +149,17 @@
     cursor: pointer;
     transition: all 0.5s;
     outline: none;
+  }
+  .submitDialog{
+    display: flex;
+    flex-direction: column;
+  }
+  .submitDialogTextArea{
+    border: 1px solid rgba(0, 0, 0, 0.082);
+    margin: 1vmax 0;
+    outline: none;
+    padding: 1rem;
+    font: 300 1rem "Roboto";
   }
   .submitReview:hover {
     background-color: rgb(197, 68, 45);

@@ -26,7 +26,8 @@ import PaymentCard  from './components/Cart/Payment.js';
 import OrderSuccess from './components/Cart/OrderSuccess.js';
 import MyOrders from './components/Order/MyOrders.js';
 import OrderDetails from './components/Order/OrderDetails.js';
-import {Dashboard} from './components/admin/Dashboard.js';
+import {Dashboard} from './components/Admin/Dashboard.js';
+import {ProductList} from './components/Admin/ProductList.js';
 
 
  function App() {
@@ -66,7 +67,8 @@ import {Dashboard} from './components/admin/Dashboard.js';
         <Route path='/orders' element={<ProtectedRoute component={MyOrders}/>} />
         <Route path='/order/:id' element={<ProtectedRoute component={OrderDetails} />} />
         
-        <Route path="/admin/dashboard" element={<ProtectedRoute component={Dashboard}/>} />
+        <Route path="/admin/dashboard" element={<ProtectedRoute isAdmin={true} component={Dashboard}/>} />
+        <Route path="/admin/products" element={<ProtectedRoute isAdmin={true} component={ProductList}/>} />
         </Routes>
         <Footer/>
     </Router>

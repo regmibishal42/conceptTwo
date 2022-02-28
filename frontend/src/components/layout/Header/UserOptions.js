@@ -26,7 +26,7 @@ export const UserOptions = ({user}) => {
       options.unshift({icon:<Dashboard />,name:"DashBoard",func:dashboard});
     }
     function dashboard(){
-      navigator('/dashboard');
+      navigator('/admin/dashboard');
     }
     function orders(){
       navigator('/orders');

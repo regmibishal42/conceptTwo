@@ -35,7 +35,7 @@ export const Sidebar = () => {
                 <TreeItem nodeId="2" label="All" icon={<PostAdd />} />
               </Link>
   
-              <Link to="/admin/product">
+              <Link to="/admin/product/new">
                 <TreeItem nodeId="3" label="Create" icon={<Add />} />
               </Link>
             </TreeItem>

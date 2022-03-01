@@ -28,6 +28,7 @@ import MyOrders from './components/Order/MyOrders.js';
 import OrderDetails from './components/Order/OrderDetails.js';
 import {Dashboard} from './components/Admin/Dashboard.js';
 import {ProductList} from './components/Admin/ProductList.js';
+import { NewProduct } from "./components/Admin/NewProduct.js";
 
 
  function App() {
@@ -69,6 +70,7 @@ import {ProductList} from './components/Admin/ProductList.js';
         
         <Route path="/admin/dashboard" element={<ProtectedRoute isAdmin={true} component={Dashboard}/>} />
         <Route path="/admin/products" element={<ProtectedRoute isAdmin={true} component={ProductList}/>} />
+        <Route path="/admin/product/new" element={<ProtectedRoute isAdmin={true} component={NewProduct}/>} />
         </Routes>
         <Footer/>
     </Router>

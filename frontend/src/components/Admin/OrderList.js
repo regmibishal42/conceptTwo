@@ -1,26 +1,26 @@
 import React, {Fragment, useEffect} from 'react';
 import {DataGrid} from '@mui/x-data-grid';
-import './ProductList.css';
+import './OrderList.css';
 import {useSelector, useDispatch} from 'react-redux';
-import {clearErrors, deleteProduct, getAdminProducts} from '../../actions/productAction';
+import {clearErrors, deleteOrder,getAllOrders} from '../../actions/orderAction';
 import {Link,useNavigate} from 'react-router-dom';
 import MetaData from '../layout/metadata';
 import {Button} from '@mui/material';
 import {Edit, Delete} from '@mui/icons-material';
 import {Sidebar} from './Sidebar';
 import {useAlert} from 'react-alert';
-import { DELETE_PRODUCT_RESET } from '../../constants/productConstants';
+import {DELETE_ORDER_RESET} from '../../constants/orderConstants';
 
-export const ProductList = () => {
+export const OrderList = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const alert = useAlert();
-    const {error, products} = useSelector((state) => state.products);
+    const {error, orders} = useSelector((state) => state.allOrders);
     const { error: deleteError, isDeleted } = useSelector(
-      (state) => state.product
+      (state) => state.order
     );
-    const deleteProductHandler = (id) =>{
-      dispatch(deleteProduct(id));
+    const deleteOrderHandler = (id) =>{
+      dispatch(deleteOrder(id));
     };
     useEffect(() => {
       if (error) {
@@ -36,39 +36,24 @@ export const ProductList = () => {
       if (isDeleted) {
         alert.success("Product Deleted Successfully");
         navigate("/admin/dashboard");
-        dispatch({ type: DELETE_PRODUCT_RESET });
+        dispatch({ type: DELETE_ORDER_RESET });
       }
   
-      dispatch(getAdminProducts());
+      dispatch(getAllOrders());
     }, [dispatch, alert, error,navigate,deleteError,isDeleted]);
 
     const columns = [
-        {
-            field: "id",
-            headerName: "Product Id",
-            minWidth: 200,
-            flex: 0.5
+        {field:"id",headerName:"Order Id",minWidth:300,flex:1},
+        {field:"status",
+        headerName:"Status",
+        cellClassName:(params) =>{
+          return params.getValue(params.id,"status") === "Delivered" ? "greenColor" : "redColor";
         },
+        minWidth:150,
+        flex:0.5},
+        {field:"itemQty",headerName:"Items Qty",type:"number",minWidth:150,flex:0.3},
+        {field:"amount",headerName:"Amount",type:"number",minWidth:270,flex:0.5},
         {
-            field: "name",
-            headerName: "name",
-            minWidth: 350,
-            flex: 1
-        },
-        {
-            field: "stock",
-            headerName: "Stock",
-            type: 'number',
-            minWidth: 150,
-            flex: 0.3
-        },
-        {
-            field: "price",
-            headerName: "Price",
-            type: 'number',
-            minWidth: 270,
-            flex: 0.3
-        }, {
             field: "actions",
             headerName: "Actions",
             minWidth: 150,
@@ -78,10 +63,10 @@ export const ProductList = () => {
             renderCell:(params) =>{
               return (
                 <Fragment>
-                  <Link to={`/admin/product/${params.getValue(params.id,"id")}`} >
+                  <Link to={`/admin/order/${params.getValue(params.id,"id")}`} >
                     <Edit />
                   </Link>
-                  <Button onClick={()=>deleteProductHandler(params.getValue(params.id,"id"))}>
+                  <Button onClick={()=>deleteOrderHandler(params.getValue(params.id,"id"))}>
                     <Delete />
                   </Button>
                 </Fragment>
@@ -91,30 +76,30 @@ export const ProductList = () => {
     ];
     const rows = [];
 
-    products &&
-      products.forEach((item) => {
+    orders &&
+      orders.forEach((item) => {
         rows.push({
           id: item._id,
-          stock: item.stock,
-          price: item.price,
-          name: item.name,
+          itemsQty: item.orderItems.length,
+          amount: item.totalPrice,
+          status: item.orderStatus,
         });
       });
     return (
     <Fragment>
-    <MetaData title={`ALL PRODUCTS - Admin`} />
+    <MetaData title={`All Orders - Admin`} />
 
     <div className="dashboard">
       <Sidebar />
-      <div className="productListContainer">
-        <h1 id="productListHeading">ALL PRODUCTS</h1>
+      <div className="orderListContainer">
+        <h1 id="orderListHeading">ALL ORDERS</h1>
 
         <DataGrid
           rows={rows}
           columns={columns}
           pageSize={10}
           disableSelectionOnClick
-          className="productListTable"
+          className="orderListTable"
           autoHeight
         />
       </div>
@@ -122,3 +107,4 @@ export const ProductList = () => {
   </Fragment>
 );
 }
+

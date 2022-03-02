@@ -71,32 +71,42 @@ exports.getAllOrders = catchAsyncErrors(async(req,res,next)=>{
 });
 
 // Update Order Status --Admin Side Route
-
-exports.updateOrder = catchAsyncErrors(async(req,res,next)=>{
+// update Order Status -- Admin
+exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
     const order = await Order.findById(req.params.id);
-
-    if(order.orderStatus === "Delivered"){
-        return next(new ErrorHandler("You have already Delivered This Order",400));
+  
+    if (!order) {
+      return next(new ErrorHander("Order not found with this Id", 404));
     }
-    order.orderItems.forEach(async (order)=>{
-        await updateStock(order.Product,order.quantity);
-    });
-
+  
+    if (order.orderStatus === "Delivered") {
+      return next(new ErrorHander("You have already delivered this order", 400));
+    }
+  
+    if (req.body.status === "Shipped") {
+      order.orderItems.forEach(async (o) => {
+        await updateStock(o.product, o.quantity);
+      });
+    }
     order.orderStatus = req.body.status;
-    if(req.body.status ==="Delivered") order.deliveredAt = Date.now();
-
-    await order.save({validateBeforeSave:false})
+  
+    if (req.body.status === "Delivered") {
+      order.deliveredAt = Date.now();
+    }
+  
+    await order.save({ validateBeforeSave: false });
     res.status(200).json({
-        success:true
+      success: true,
     });
-});
-
-// Function To Update The Stock
-async function updateStock(id,quantity){
+  });
+  
+  async function updateStock(id, quantity) {
     const product = await Product.findById(id);
+  
     product.stock -= quantity;
-    await product.save({validateBeforeSave:false});
-};
+  
+    await product.save({ validateBeforeSave: false });
+  }
 
 // Delete Order --- Admin Side
 exports.deleteOrder = catchAsyncErrors(async(req,res,next)=>{

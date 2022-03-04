@@ -32,6 +32,7 @@ import { NewProduct } from "./components/Admin/NewProduct.js";
 import {UpdateProduct} from './components/Admin/UpdateProduct.js';
 import {OrderList} from './components/Admin/OrderList.js'; 
 import {ProcessOrder} from './components/Admin/ProcessOrder';
+import { UsersList } from "./components/Admin/UsersList.js";
 
 
  function App() {
@@ -77,6 +78,8 @@ import {ProcessOrder} from './components/Admin/ProcessOrder';
         <Route path="/admin/product/:id" element={<ProtectedRoute isAdmin={true} component={UpdateProduct}/>} />
         <Route path="/admin/orders" element={<ProtectedRoute isAdmin={true} component={OrderList}/>} />
         <Route path='/admin/order/:id' element={<ProtectedRoute isAdmin={true} component={ProcessOrder} />} />
+        <Route path='/admin/users' element={<ProtectedRoute isAdmin={true} component={UsersList} />} />
+
         </Routes>
         <Footer/>
     </Router>

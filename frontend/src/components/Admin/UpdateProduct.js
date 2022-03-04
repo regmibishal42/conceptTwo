@@ -35,13 +35,12 @@ export const UpdateProduct = () => {
     const [imagesPreview, setImagesPreview] = useState([]);
 
     const categories = [
-        "Laptop",
-        "Footwear",
-        "Bottom",
-        "Tops",
-        "Attire",
-        "Camera",
-        "SmartPhones",
+        "Accessories & AddOns",
+        "Helmets & Visors",
+        "Bike Parts",
+        "Riding Wears",
+        "Tyres & Wheels",
+        "Fuel & Lubricants",
     ];
 
 

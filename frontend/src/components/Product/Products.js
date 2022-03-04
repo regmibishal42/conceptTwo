@@ -13,10 +13,12 @@ import MetaData from '../layout/metadata';
 
 // Categories List --SInce there is no enum implem in backend
 const categories = [
-    "clothing",
-    "Mobile",
-    "laptop",
-    "Bike"
+    "Accessories & AddOns",
+    "Helmets & Visors",
+    "Bike Parts",
+    "Riding Wears",
+    "Tyres & Wheels",
+    "Fuel & Lubricants",
 ]
 
 

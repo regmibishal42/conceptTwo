@@ -194,12 +194,12 @@ exports.getAllUsers = catchAsyncErrors(async (req, res, next) => {
 
 // Get Single User For Admin Panel in Frontend
 
-exports.getUser = catchAsyncErrors(async (req, res, next) => {
-    const userDetails = await User.findById(req.params.id);
+exports.getSingleUserDetails = catchAsyncErrors(async (req, res, next) => {
+    const user = await User.findById(req.params.id);
     if (!user) {
         return next(new ErrorHandler('User Not Found', 404));
     };
-    res.status(200).json({success: true, userDetails});
+    res.status(200).json({success: true, user});
 });
 
 // Update User Role --Admin
@@ -226,6 +226,10 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
             req.params.id
         }`, 400));
     }
+
+  const imageId = user.avatar.public_id;
+
+  await cloudinary.v2.uploader.destroy(imageId);
     await user.remove();
 
     res.status(200).json({success: true, message: 'User Deleated Successfully'});

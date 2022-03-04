@@ -33,6 +33,10 @@ import {UpdateProduct} from './components/Admin/UpdateProduct.js';
 import {OrderList} from './components/Admin/OrderList.js'; 
 import {ProcessOrder} from './components/Admin/ProcessOrder';
 import { UsersList } from "./components/Admin/UsersList.js";
+import {UpdateUser} from './components/Admin/UpdateUser.js';
+import ProductReviews from "./components/Admin/ProductReviews.js";
+import About from './components/layout/About/About.js';
+import Contact from './components/layout/Contact/Contact.js';
 
 
  function App() {
@@ -60,6 +64,8 @@ import { UsersList } from "./components/Admin/UsersList.js";
         <Route path='/password/forget' element={<ForgetPassword />} />
         <Route path='/password/:token' element={<ResetPassword />}/>
         <Route path='/cart' element={<Cart />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/contact' element={<Contact />} />
 
 
         <Route path='/account' element={<ProtectedRoute component={Profile} />} />
@@ -79,7 +85,8 @@ import { UsersList } from "./components/Admin/UsersList.js";
         <Route path="/admin/orders" element={<ProtectedRoute isAdmin={true} component={OrderList}/>} />
         <Route path='/admin/order/:id' element={<ProtectedRoute isAdmin={true} component={ProcessOrder} />} />
         <Route path='/admin/users' element={<ProtectedRoute isAdmin={true} component={UsersList} />} />
-
+        <Route path='/admin/user/:id' element={<ProtectedRoute isAdmin={true} component={UpdateUser} />} />
+        <Route path='/admin/reviews' element={<ProtectedRoute isAdmin={true} component={ProductReviews} />} />
         </Routes>
         <Footer/>
     </Router>

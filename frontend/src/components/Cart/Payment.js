@@ -83,7 +83,7 @@ const PaymentCard = () => {
 
         event.preventDefault();
         payBtn.current.disabled = true;
-        checkout.show({amount: orderInfo.totalPrice});
+        checkout.show({amount: Math.floor(orderInfo.totalPrice *10)});
         // order.paymentInfo = {
         //     id:"randomidhafj",
         //     status:"Completed"

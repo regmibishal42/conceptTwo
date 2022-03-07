@@ -18,7 +18,7 @@ const Cart = () => {
     };
     const decreaseQuantity = (id,quantity) =>{
         const newQty = quantity-1;
-        if(quantity >=1) return;
+        if(quantity <=1) return;
         dispatch(addItemsToCart(id,newQty));
 
     }

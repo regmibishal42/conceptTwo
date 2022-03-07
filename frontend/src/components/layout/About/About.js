@@ -1,11 +1,11 @@
 import React from "react";
 import "./About.css";
 import { Button, Typography, Avatar } from "@mui/material";
-import {Instagram} from "@mui/icons-material";
+import aayush from '../../../images/aayush.jpg';
+import bishal from '../../../images/bishal.jpg';
+import grishma from '../../../images/grishma.jpg';
 const About = () => {
-  const visitInstagram = () => {
-    window.location = "https://instagram.com/meabhisingh";
-  };
+
   return (
     <div className="aboutSection">
       <div></div>
@@ -17,21 +17,7 @@ const About = () => {
           <div>
             <Avatar
               style={{ width: "10vmax", height: "10vmax", margin: "2vmax 0" }}
-              src=""
-              alt="Founder"
-            />
-            <Typography>Bishal Regmi</Typography>
-            <Button onClick={visitInstagram} color="primary">
-              Visit Instagram
-            </Button>
-            <span>
-              This is a sample wesbite made by Vishal Regmi, Aayush Aryal and Grishma Shrestha as a Fifth Semester Project for Kantipur City College
-            </span>
-          </div>
-          <div>
-            <Avatar
-              style={{ width: "10vmax", height: "10vmax", margin: "2vmax 0" }}
-              src=""
+              src={bishal}
               alt="Founder"
             />
             <Typography>Bishal Regmi</Typography>
@@ -45,11 +31,25 @@ const About = () => {
           <div>
             <Avatar
               style={{ width: "10vmax", height: "10vmax", margin: "2vmax 0" }}
-              src=""
+              src={aayush}
               alt="Founder"
             />
-            <Typography>Bishal Regmi</Typography>
-            <Button onClick={visitInstagram} color="primary">
+            <Typography>Aayush Aryal</Typography>
+            <Button onClick={()=>window.location('https://instagram.com/meabhisingh')} color="primary">
+              Visit Instagram
+            </Button>
+            <span>
+              This is a sample website made by Vishal Regmi, Aayush Aryal and Grishma Shrestha as a Fifth Semester Project for Kantipur City College
+            </span>
+          </div>
+          <div>
+            <Avatar
+              style={{ width: "10vmax", height: "10vmax", margin: "2vmax 0" }}
+              src={grishma}
+              alt="Founder"
+            />
+            <Typography>Grishma Shrestha</Typography>
+            <Button onClick={()=>window.location('https://instagram.com/meabhisingh')} color="primary">
               Visit Instagram
             </Button>
             <span>
